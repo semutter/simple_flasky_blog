@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>当前用户名{{user.username}}</div>
+{% for blog in blog_list %}
+<div> Blog {{blog.title}}
+  <!--: <a href="{{url_for('user_blog_list', user_id=user.id)}}">博文</a>-->
+1</div>
+{% else %}
+<div> 当前用户没用博文</div>
+{% endfor %}
+{% endblock %}

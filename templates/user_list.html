@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+{% for user in user_list %}
+<div> user {{user.username}} : <a href="{{url_for('user_blog_list', user_id=user.id)}}">博文</a></div>
+{% else %}
+<div> 目前没用用户</div>
+{% endfor %}
+<form method="POST" action="/blog">
+  {{form.csrf_token}}
+  {{form.username.label}}{{form.username(size=20)}}
+  {{form.email.label}}{{form.email(size=30)}}
+  <input type="submit" value="Go">
+</form>
+{% endblock %}
