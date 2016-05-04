@@ -4,8 +4,9 @@
 {% for blog in blog_list %}
 <div> Blog {{blog.title}}
   <!--: <a href="{{url_for('user_blog_list', user_id=user.id)}}">博文</a>-->
-1</div>
+</div>
 {% else %}
 <div> 当前用户没用博文</div>
 {% endfor %}
+<div><a href="{{url_for('user_add_blog', user_id=user.id)}}">添加新博文</a></div>
 {% endblock %}

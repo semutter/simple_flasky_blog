@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>当前用户名{{user.username}}</div>
+<form method="POST" action="{{url_for('user_add_blog', user_id=user.id)}}">
+  {{form.csrf_token}}
+  {{form.title.label}}{{form.title(size=20)}}<br>
+  {{form.content.label}}{{form.content(size=1000)}}
+  <input type="submit" value="Go">
+</form>
+{% endblock %}

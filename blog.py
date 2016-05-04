@@ -11,7 +11,7 @@ app.config["SECRET_KEY"] = 'a random string'
 
 db = SQLAlchemy(app)
 from models import *
-from html_forms import NewUser
+from html_forms import NewUser, NewPost
 
 @app.route("/")
 def index():
@@ -32,7 +32,7 @@ def all_user_list():
         user = User(new_user_form.username.data, new_user_form.email.data)
         db.session.add(user)
         db.session.commit()
-        flash("Successfully add a new user!")
+       # flash("Successfully add a new user!")
         return redirect(url_for("all_user_list"))
     return redirect(url_for("error"))
 
@@ -42,9 +42,17 @@ def user_blog_list(user_id):
     user = User.query.filter_by(id=user_id).first()
     return render_template("blog_list.html", user=user, blog_list=user_blog_list)
 
-@app.route("user/<int:user_id>/add_blog", methods=["GET", "POST"])
-def user_add_blog():
-    pass
+@app.route("/user/<int:user_id>/add_blog", methods=["GET", "POST"])
+def user_add_blog(user_id):
+    new_blog_form = NewPost(request.form)
+    user = User.query.filter_by(id=user_id).first()
+    if request.method == "POST" and new_blog_form.validate():
+        post = Post(user_id, new_blog_form.title.data, new_blog_form.content.data)
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for("user_blog_list", user_id=user_id))
+    return render_template("add_blog.html", user=user, form=new_blog_form)
+
 
 @app.route("/error")
 def error():
